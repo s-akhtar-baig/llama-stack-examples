@@ -1,0 +1,14 @@
+[project]
+name = "llama-stack-examples"
+version = "0.1.0"
+description = "Llama Stack Examples"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "greenlet==3.2.4",
+    "llama-stack==0.2.22",
+    "mcp==1.14.1",
+    "ollama==0.5.4",
+    "openai==1.108.1",
+    "sqlalchemy==2.0.43",
+]
