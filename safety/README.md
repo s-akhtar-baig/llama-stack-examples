@@ -13,3 +13,25 @@ In Llama Stack, guardrails are represented with the resource "shields". The desi
 To standardize the categories supported by various guardrails, the Llama Stack community is adopting the OpenAI moderations API specification. While Llama Stack will implement the OpenAI specification, it will also include additional categories from sources like Llama Guard and Prompt Guard.
 
 At the time of writing, the Llama Stack client CLI and Python SDK does not support moderations API. Moreover, most of the inline and remote providers do not implement the run_moderation endpoint which presents a potential area of contribution.
+
+## Sample Usage with Llama Stack
+
+**i. Installation and Configuration**
+
+Refer to the [Installation and Configuration](../README.md#installation-and-configuration) section for instructions on running a Llama Stack instance with the required providers.
+
+**ii. Run the Sample Code**
+
+We have provided examples under the src directory to showcase content moderation on user input and the target LLM output. Navigate to the safety directory and use the following commands to test the desired script(s):
+
+```
+uv run python src/agent.py
+```
+
+```
+uv run python src/moderations.py
+```
+
+```
+uv run python src/safety_api.py
+```
