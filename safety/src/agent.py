@@ -8,9 +8,9 @@ from llama_stack_client import Agent, AgentEventLogger, LlamaStackClient
 client = LlamaStackClient(base_url="http://localhost:8321")
 
 # Get inference model id
-model_id = "llama3.2:3b"
+model_id = "ollama/llama3.2:3b"
 # Get registered safety shields
-available_shields = ["llama-guard3:1b"]
+available_shields = [shield.identifier for shield in client.shields.list()]
 
 agent = Agent(
     client,
