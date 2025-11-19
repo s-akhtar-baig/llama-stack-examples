@@ -44,4 +44,5 @@ uv run llama-stack-client configure --endpoint http://localhost:8321 --api-key n
 We have provided examples to showcase integration of crewai and guardrails with Llama Stack. Use the commands provided under the relevant directory to test the desired script(s):
 
 - [crewai](crewai/README.md): sample code to use crewai with a local instance of Llama Stack
+- [responses](responses/README.md): sample code to explore Responses API behavior in Llama Stack and OpenAI
 - [safety](safety/README.md): sample code for content moderation on user input and the target LLM output
