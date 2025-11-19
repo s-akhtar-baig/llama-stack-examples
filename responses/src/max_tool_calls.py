@@ -78,14 +78,20 @@ def test_function_tools():
         }
     ]
 
+    print("Testing function tool calling with max_tool_calls=1")
+
     response = client.responses.create(
         model="gpt-4o",
         input=input_messages,
         tools=tools,
-        max_tool_calls=0,
+        max_tool_calls=1,
     )
 
-    print(f"\nReceived {len(response.output)} items in response output")
+    # Count tool calls with max_tool_calls set to 1
+    func_calls = [output for output in response.output if output.type == "function_call"]
+    print(f"Total function tool calls: {len(func_calls)}")
+
+    # print(response.model_dump_json(indent=2))
 
 def test_builtin_tools():
     """
@@ -95,6 +101,8 @@ def test_builtin_tools():
     client = OpenAI()
 
     try:
+        print("Testing built-in tool calling with max_tool_calls=1")
+
         response = client.responses.create(
             model="gpt-4o",
             input="Search for a positive news story and the top rated news story from today. You MUST make two separate web search tool calls.",
@@ -104,7 +112,11 @@ def test_builtin_tools():
             max_tool_calls=1,
         )
 
-        print(response.model_dump_json(indent=2))
+        # Count tool calls with max_tool_calls set to 1
+        builtin_calls = [output for output in response.output if output.type == "web_search_call"]
+        print(f"Total web search calls: {len(builtin_calls)}")
+
+        # print(response.model_dump_json(indent=2))
 
     except Exception as e:
         print(f"Error: {e}")
@@ -140,6 +152,8 @@ def test_mcp_tools():
     input = "You MUST first list branches in the llama-stack-examples repository for the user s-akhtar-baig, then list five most recent commits in any of the list of branches."
 
     try:
+        print("Testing mcp tool calling with max_tool_calls=1")
+
         response = client.responses.create(
             model="gpt-4o",
             input=input,
@@ -148,41 +162,38 @@ def test_mcp_tools():
         )
 
         # Count tool calls with max_tool_calls set to 1
-        tool_call_count = sum(1 for item in response.output if hasattr(item, 'type') and item.type == 'tool_call')
-        print(f"Total tool calls made: {tool_call_count}")
+        mcp_calls = [output for output in response.output if output.type == "mcp_call"]
+        print(f"Total mcp tool calls: {len(mcp_calls)}")
 
-        # Print the response
-        print(response.model_dump_json(indent=2))
+        # print(response.model_dump_json(indent=2))
+
+        print("Testing mcp tool calling with max_tool_calls=5")
 
         response2 = client.responses.create(
             model="gpt-4o",
             input=input,
             tools=tools,
-            max_tool_calls=2,
+            max_tool_calls=5,
         )
 
-        # Count tool calls with max_tool_calls set to 2
-        tool_call_count_2 = sum(1 for item in response2.output if hasattr(item, 'type') and item.type == 'tool_call')
-        print(f"Total tool calls made: {tool_call_count_2}")
+        # Count tool calls with max_tool_calls set to 5
+        mcp_calls_2 = [output for output in response2.output if output.type == "mcp_call"]
+        print(f"Total mcp tool calls: {len(mcp_calls_2)}")
 
-        # Print the second response
-        print(response2.model_dump_json(indent=2))
+        # print(response2.model_dump_json(indent=2))
 
     except Exception as e:
         print(f"Error: {e}")
         exit(1)
  
 if __name__ == "__main__":
-    openai_token = os.getenv("OPENAI_API_TOKEN", "").strip()
+    openai_token = os.getenv("OPENAI_API_KEY", "").strip()
     if not openai_token:
-        print("OPENAI_API_TOKEN is not set in env")
+        print("OPENAI_API_KEY is not set in env")
         exit(1)
 
-    print("Testing function tool calling with max_tool_calls")
     test_function_tools()
 
-    print("Testing built-in tool calling with max_tool_calls")
     test_builtin_tools()
 
-    print("Testing mcp tool calling with max_tool_calls")
     test_mcp_tools()
