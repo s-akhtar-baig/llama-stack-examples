@@ -42,3 +42,11 @@ uv run python src/max_tool_calls.py
 ```
 uv run python src/include.py
 ```
+
+```
+uv run python src/reasoning_chat_completions.py
+```
+
+```
+uv run python src/reasoning_responses.py
+```
